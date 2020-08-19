@@ -26,14 +26,14 @@ Make sure you have unrestricted ExecutionPolicy enabled
 
 
 ## FAQ
-Q: Will it work on Windows (not 10) 
-A: No
-
-Q: Will it work on Server
-A: Dont know
-
-Q: It says that the script isn't signed
-A: Set your execution policy
-
-Q: My Windows 10 version is older, and not listed, will it work?
-A: No, upgrade 
+    Q: Will it work on Windows (not 10) 
+    A: No
+    
+    Q: Will it work on Server
+    A: Dont know
+    
+    Q: It says that the script isn't signed
+    A: Set your execution policy
+    
+    Q: My Windows 10 version is older, and not listed, will it work?
+    A: No, upgrade 
