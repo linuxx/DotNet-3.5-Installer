@@ -1,7 +1,9 @@
 In an elevated powershell prompt, run the following commands:
 
 cd \\
+
 wget https://raw.githubusercontent.com/linuxx/DotNet-3.5-Installer/master/InstallDotNet.ps1 -OutFile InstallDotNet.ps1
+
 .\InstallDotNet.ps1
 
 
