@@ -8,3 +8,6 @@ In an elevated powershell prompt, run the following commands:
 
 Look to see the version of .net installed
 * reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP"
+
+Make sure you have unrestricted ExecutionPolicy enabled
+* Set-ExecutionPolicy Unrestricted
