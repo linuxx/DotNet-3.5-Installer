@@ -33,7 +33,7 @@ Make sure you have unrestricted ExecutionPolicy enabled
     A: No
     
     Q: Will it work on Server
-    A: Dont know
+    A: Sometimes
     
     Q: It says that the script isn't signed
     A: Set your execution policy
