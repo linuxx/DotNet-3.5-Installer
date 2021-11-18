@@ -8,6 +8,9 @@ Windows 10.0.17763  | 1809 | :heavy_check_mark:
 Windows 10.0.18362  | 1903 | :heavy_check_mark:
 Windows 10.0.18363 | 1909 | :heavy_check_mark:
 Windows 10.0.19041 | 2004 | :heavy_check_mark:
+Windows 10.0.19042 | 20H2 | :heavy_check_mark:
+Windows 10.0.19043 | 21H1 | :heavy_check_mark:
+Windows 10.0.19044 | 21H2 | :heavy_check_mark:
 
 
 In an elevated powershell prompt, run the following commands:
