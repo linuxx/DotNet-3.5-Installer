@@ -1,29 +1,41 @@
-#This will install .Net 3.5 for Windows 10
+# Install .NET 3.5 for Windows 10 and 11
 
-#Specify a temporary location 
-$strTemDir = $env:TEMP + "\DotNet3.5Install\"
+$strTemDir = "$env:TEMP\DotNet3.5Install\"
+New-Item $strTemDir -ItemType Directory -Force | Out-Null
 
-#create a directory in that location to hold our files
-New-Item $strTemDir -ItemType Directory | Out-Null
+# Get OS info
+$osInfo = Get-ComputerInfo
+$build = [int]$osInfo.OsBuildNumber
 
-#Detect OS version
-$strOSVersion = (get-computerinfo osVersion).osVersion
+if ($build -ge 22000) {
+    Write-Host "Detected Windows 11 (Build $build)"
 
-if($null -ne $strOSVersion)
+    # Windows 11 - single CAB
+    $cab = "microsoft-windows-netfx3-ondemand-package~31bf3856ad364e35~amd64~~.cab"
+    $url = "https://github.com/linuxx/DotNet-3.5-Installer/raw/master/Versions/$($osInfo.OsVersion)/$cab"
 
-{
-
-    #Download both files
-    wget https://github.com/linuxx/DotNet-3.5-Installer/raw/master/Versions/$strOSVersion/Microsoft-Windows-NetFx3-OnDemand-Package~31bf3856ad364e35~amd64~en-US~.cab -OutFile $strTemDir\Microsoft-Windows-NetFx3-OnDemand-Package~31bf3856ad364e35~amd64~en-US~.cab
-    wget https://github.com/linuxx/DotNet-3.5-Installer/raw/master/Versions/$strOSVersion/Microsoft-Windows-NetFx3-OnDemand-Package~31bf3856ad364e35~amd64~~.cab -OutFile $strTemDir\Microsoft-Windows-NetFx3-OnDemand-Package~31bf3856ad364e35~amd64~~.cab 
-
-    #Install the feature 
-    dism.exe /online /enable-feature /featurename:NetFX3 /All /Source:$strTemDir /LimitAccess
-}
-else 
-{
-    Write-Host "Can't see to figure out Windows version, you will need to seek another method to install .net 3.5"  -ForegroundColor red -BackgroundColor white
+    Invoke-WebRequest $url -OutFile "$strTemDir\$cab"
 
 }
-#Clean up!
-Remove-Item -path $strTemDir -Recurse -Force | Out-Null
+elseif ($build -lt 22000) {
+    Write-Host "Detected Windows 10 (Build $build)"
+
+    # Windows 10 - two CABs
+    $cab1 = "Microsoft-Windows-NetFx3-OnDemand-Package~31bf3856ad364e35~amd64~en-US~.cab"
+    $cab2 = "Microsoft-Windows-NetFx3-OnDemand-Package~31bf3856ad364e35~amd64~~.cab"
+
+    $baseUrl = "https://github.com/linuxx/DotNet-3.5-Installer/raw/master/Versions/$($osInfo.OsVersion)/"
+
+    Invoke-WebRequest "$baseUrl$cab1" -OutFile "$strTemDir\$cab1"
+    Invoke-WebRequest "$baseUrl$cab2" -OutFile "$strTemDir\$cab2"
+}
+else {
+    Write-Host "Unable to determine OS version" -ForegroundColor Red
+    exit 1
+}
+
+# Install .NET 3.5
+dism.exe /online /enable-feature /featurename:NetFX3 /All /Source:$strTemDir /LimitAccess
+
+# Cleanup
+Remove-Item -Path $strTemDir -Recurse -Force
